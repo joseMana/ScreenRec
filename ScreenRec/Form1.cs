@@ -8,8 +8,9 @@ namespace ScreenRec
     {
         public Recorder _rec;
         private string _recordingTitle;
-        private bool _isAudioEnabled;
-        private bool _isInputDeviceEnabled;
+        private bool _isAudioEnabled = true;
+        private bool _isInputDeviceEnabled = true;
+        private int _frameRate = 35;
 
         public Form1()
         {
@@ -30,6 +31,10 @@ namespace ScreenRec
                 {
                     IsAudioEnabled = _isAudioEnabled,
                     IsInputDeviceEnabled = _isInputDeviceEnabled
+                },
+                VideoEncoderOptions = new VideoEncoderOptions
+                {
+                    Framerate = _frameRate
                 }
             });
 
@@ -67,6 +72,5 @@ namespace ScreenRec
             _rec.OnRecordingFailed += Rec_OnRecordingFailed;
             _rec.OnStatusChanged += Rec_OnStatusChanged;
         }
-
     }
 }

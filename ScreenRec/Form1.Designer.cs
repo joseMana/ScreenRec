@@ -38,6 +38,8 @@ namespace ScreenRec
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.isInputDeviceEnabled = new System.Windows.Forms.CheckBox();
+            this.txtFrameRate = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -52,7 +54,7 @@ namespace ScreenRec
             // 
             // btnRecord
             // 
-            this.btnRecord.Location = new System.Drawing.Point(165, 93);
+            this.btnRecord.Location = new System.Drawing.Point(280, 140);
             this.btnRecord.Margin = new System.Windows.Forms.Padding(2);
             this.btnRecord.Name = "btnRecord";
             this.btnRecord.Size = new System.Drawing.Size(121, 19);
@@ -63,16 +65,21 @@ namespace ScreenRec
             // 
             // txtRecordingTitle
             // 
-            this.txtRecordingTitle.Location = new System.Drawing.Point(165, 8);
+            this.txtRecordingTitle.Location = new System.Drawing.Point(118, 8);
             this.txtRecordingTitle.Name = "txtRecordingTitle";
             this.txtRecordingTitle.Size = new System.Drawing.Size(283, 20);
             this.txtRecordingTitle.TabIndex = 5;
             this.txtRecordingTitle.TextChanged += new System.EventHandler(this.txtRecordingTitle_TextChanged);
+            this.txtRecordingTitle.Text = Guid.NewGuid().ToString();
+            this.txtRecordingTitle.GotFocus += new System.EventHandler(this.txtRecordingTitle_onFocus);
+            this.txtRecordingTitle.LostFocus += new System.EventHandler(this.txtRecordingTitle_onLostFocus);
             // 
             // isAudioEnabled
             // 
             this.isAudioEnabled.AutoSize = true;
-            this.isAudioEnabled.Location = new System.Drawing.Point(165, 34);
+            this.isAudioEnabled.Checked = true;
+            this.isAudioEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.isAudioEnabled.Location = new System.Drawing.Point(118, 34);
             this.isAudioEnabled.Name = "isAudioEnabled";
             this.isAudioEnabled.Size = new System.Drawing.Size(15, 14);
             this.isAudioEnabled.TabIndex = 6;
@@ -99,21 +106,44 @@ namespace ScreenRec
             this.label3.TabIndex = 9;
             this.label3.Text = "Enable Audio Input?";
             // 
-            // isAudioInputEnabled
+            // isInputDeviceEnabled
             // 
             this.isInputDeviceEnabled.AutoSize = true;
-            this.isInputDeviceEnabled.Location = new System.Drawing.Point(165, 54);
-            this.isInputDeviceEnabled.Name = "isAudioInputEnabled";
+            this.isInputDeviceEnabled.Checked = true;
+            this.isInputDeviceEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.isInputDeviceEnabled.Location = new System.Drawing.Point(118, 54);
+            this.isInputDeviceEnabled.Name = "isInputDeviceEnabled";
             this.isInputDeviceEnabled.Size = new System.Drawing.Size(15, 14);
             this.isInputDeviceEnabled.TabIndex = 8;
             this.isInputDeviceEnabled.UseVisualStyleBackColor = true;
             this.isInputDeviceEnabled.CheckedChanged += new System.EventHandler(this.isAudioInputEnabled_CheckedChanged);
             // 
+            // txtFrameRate
+            // 
+            this.txtFrameRate.Location = new System.Drawing.Point(118, 74);
+            this.txtFrameRate.Name = "txtFrameRate";
+            this.txtFrameRate.Size = new System.Drawing.Size(33, 20);
+            this.txtFrameRate.TabIndex = 10;
+            this.txtFrameRate.Text = "35";
+            this.txtFrameRate.TextChanged += new System.EventHandler(this.txtFrameRate_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 77);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Framerate:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(457, 123);
+            this.ClientSize = new System.Drawing.Size(414, 168);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtFrameRate);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.isInputDeviceEnabled);
             this.Controls.Add(this.label2);
@@ -143,7 +173,7 @@ namespace ScreenRec
         private System.Windows.Forms.CheckBox isInputDeviceEnabled;
 
 
-        #region ValueChanges Events
+        #region Events
         private void txtRecordingTitle_TextChanged(object sender, EventArgs e)
         {
             var senderAsTxtbox = sender as System.Windows.Forms.TextBox;
@@ -164,7 +194,33 @@ namespace ScreenRec
 
             _isInputDeviceEnabled = senderAsChkBox.Checked;
         }
+        private void txtFrameRate_TextChanged(object sender, EventArgs e)
+        {
+            var senderAsTxtbox = sender as System.Windows.Forms.TextBox;
+
+            _frameRate = int.Parse(senderAsTxtbox.Text);
+        }
+        private void txtRecordingTitle_onFocus(object sender, EventArgs e)
+        {
+            var senderAsTxtbox = sender as System.Windows.Forms.TextBox;
+            string recordingTitle = senderAsTxtbox.Text;
+
+            if (Guid.TryParse(recordingTitle, out Guid parsedRecordingTitleGuid))
+                this.txtRecordingTitle.Text = "";
+
+        }
+        private void txtRecordingTitle_onLostFocus(object sender, EventArgs e)
+        {
+            var senderAsTxtbox = sender as System.Windows.Forms.TextBox;
+            string recordingTitle = senderAsTxtbox.Text;
+
+            if (recordingTitle == "")
+                this.txtRecordingTitle.Text = Guid.NewGuid().ToString();
+        }
         #endregion
+
+        private System.Windows.Forms.TextBox txtFrameRate;
+        private System.Windows.Forms.Label label4;
     }
 }
 
