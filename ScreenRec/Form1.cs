@@ -17,29 +17,7 @@ namespace ScreenRec
             InitializeComponent();
             InitializeRecorder();
         }
-        private void OnBtnRecordClick(object sender, EventArgs e)
-        {
-            if(this.btnRecord.Text == "Stop")
-            {
-                EndRecording();
-                return;
-            }
 
-            _rec.SetOptions(new RecorderOptions
-            {
-                AudioOptions = new AudioOptions
-                {
-                    IsAudioEnabled = _isAudioEnabled,
-                    IsInputDeviceEnabled = _isInputDeviceEnabled
-                },
-                VideoEncoderOptions = new VideoEncoderOptions
-                {
-                    Framerate = _frameRate
-                }
-            });
-
-            StartRecording();
-        }
         public void StartRecording()
         {
             _rec.Record(Path.Combine(Path.GetTempPath(), $"{_recordingTitle}.mp4"));
@@ -49,21 +27,7 @@ namespace ScreenRec
         {
             _rec.Stop();
             this.btnRecord.Text = "Start";
-        }
-        private void Rec_OnRecordingComplete(object sender, RecordingCompleteEventArgs e)
-        {
-            string path = e.FilePath;
-            Console.WriteLine(path);
-        }
-        private void Rec_OnRecordingFailed(object sender, RecordingFailedEventArgs e)
-        {
-            string error = e.Error;
-            Console.WriteLine(error);
-        }
-        private void Rec_OnStatusChanged(object sender, RecordingStatusEventArgs e)
-        {
-            RecorderStatus status = e.Status;
-            Console.WriteLine(status.ToString());
+            this.txtRecordingTitle.Text = Guid.NewGuid().ToString();
         }
         private void InitializeRecorder()
         {

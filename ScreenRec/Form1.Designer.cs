@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScreenRecorderLib;
+using System;
 
 namespace ScreenRec
 {
@@ -174,6 +175,44 @@ namespace ScreenRec
 
 
         #region Events
+        private void OnBtnRecordClick(object sender, EventArgs e)
+        {
+            if (this.btnRecord.Text == "Stop")
+            {
+                EndRecording();
+                return;
+            }
+
+            _rec.SetOptions(new RecorderOptions
+            {
+                AudioOptions = new AudioOptions
+                {
+                    IsAudioEnabled = _isAudioEnabled,
+                    IsInputDeviceEnabled = _isInputDeviceEnabled
+                },
+                VideoEncoderOptions = new VideoEncoderOptions
+                {
+                    Framerate = _frameRate
+                }
+            });
+
+            StartRecording();
+        }
+        private void Rec_OnRecordingComplete(object sender, RecordingCompleteEventArgs e)
+        {
+            string path = e.FilePath;
+            Console.WriteLine(path);
+        }
+        private void Rec_OnRecordingFailed(object sender, RecordingFailedEventArgs e)
+        {
+            string error = e.Error;
+            Console.WriteLine(error);
+        }
+        private void Rec_OnStatusChanged(object sender, RecordingStatusEventArgs e)
+        {
+            RecorderStatus status = e.Status;
+            Console.WriteLine(status.ToString());
+        }
         private void txtRecordingTitle_TextChanged(object sender, EventArgs e)
         {
             var senderAsTxtbox = sender as System.Windows.Forms.TextBox;
