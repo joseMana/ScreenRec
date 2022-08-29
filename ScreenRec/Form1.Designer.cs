@@ -70,8 +70,11 @@ namespace ScreenRec
             this.txtRecordingTitle.Name = "txtRecordingTitle";
             this.txtRecordingTitle.Size = new System.Drawing.Size(283, 20);
             this.txtRecordingTitle.TabIndex = 5;
+
+            _recordingTitle = Guid.NewGuid().ToString();
+            this.txtRecordingTitle.Text = _recordingTitle;
+
             this.txtRecordingTitle.TextChanged += new System.EventHandler(this.txtRecordingTitle_TextChanged);
-            this.txtRecordingTitle.Text = Guid.NewGuid().ToString();
             this.txtRecordingTitle.GotFocus += new System.EventHandler(this.txtRecordingTitle_onFocus);
             this.txtRecordingTitle.LostFocus += new System.EventHandler(this.txtRecordingTitle_onLostFocus);
             // 
@@ -158,6 +161,7 @@ namespace ScreenRec
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Daily Tasks";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,12 +187,14 @@ namespace ScreenRec
                 return;
             }
 
-            _rec.SetOptions(new RecorderOptions
+            _screenRec.SetOptions(new RecorderOptions
             {
                 AudioOptions = new AudioOptions
                 {
                     IsAudioEnabled = _isAudioEnabled,
-                    IsInputDeviceEnabled = _isInputDeviceEnabled
+                    IsInputDeviceEnabled = _isInputDeviceEnabled,
+                    Bitrate = AudioBitrate.bitrate_192kbps,
+                    Channels = AudioChannels.Mono
                 },
                 VideoEncoderOptions = new VideoEncoderOptions
                 {
@@ -233,6 +239,7 @@ namespace ScreenRec
 
             _isInputDeviceEnabled = senderAsChkBox.Checked;
         }
+        
         private void txtFrameRate_TextChanged(object sender, EventArgs e)
         {
             var senderAsTxtbox = sender as System.Windows.Forms.TextBox;
@@ -254,7 +261,10 @@ namespace ScreenRec
             string recordingTitle = senderAsTxtbox.Text;
 
             if (recordingTitle == "")
+            {
                 this.txtRecordingTitle.Text = Guid.NewGuid().ToString();
+                _recordingTitle = this.txtRecordingTitle.Text;
+            }
         }
         #endregion
 
