@@ -70,10 +70,7 @@ namespace ScreenRec
             this.txtRecordingTitle.Name = "txtRecordingTitle";
             this.txtRecordingTitle.Size = new System.Drawing.Size(283, 20);
             this.txtRecordingTitle.TabIndex = 5;
-
-            _recordingTitle = Guid.NewGuid().ToString();
-            this.txtRecordingTitle.Text = _recordingTitle;
-
+            this.txtRecordingTitle.Text = "c06016fb-2af5-451b-8bb4-a6a4a5de4bc0";
             this.txtRecordingTitle.TextChanged += new System.EventHandler(this.txtRecordingTitle_TextChanged);
             this.txtRecordingTitle.GotFocus += new System.EventHandler(this.txtRecordingTitle_onFocus);
             this.txtRecordingTitle.LostFocus += new System.EventHandler(this.txtRecordingTitle_onLostFocus);
@@ -160,7 +157,7 @@ namespace ScreenRec
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
-            this.Text = "Daily Tasks";
+            this.Text = "Simple Screen Recorder";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -194,7 +191,7 @@ namespace ScreenRec
                     IsAudioEnabled = _isAudioEnabled,
                     IsInputDeviceEnabled = _isInputDeviceEnabled,
                     Bitrate = AudioBitrate.bitrate_192kbps,
-                    Channels = AudioChannels.Mono
+                    Channels = AudioChannels.Stereo
                 },
                 VideoEncoderOptions = new VideoEncoderOptions
                 {
