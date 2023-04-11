@@ -70,7 +70,11 @@ namespace ScreenRec
             this.txtRecordingTitle.Name = "txtRecordingTitle";
             this.txtRecordingTitle.Size = new System.Drawing.Size(283, 20);
             this.txtRecordingTitle.TabIndex = 5;
-            this.txtRecordingTitle.Text = "c06016fb-2af5-451b-8bb4-a6a4a5de4bc0";
+
+            var recordingTitle = Guid.NewGuid().ToString();
+            this.txtRecordingTitle.Text = recordingTitle;
+            _recordingTitle = recordingTitle;
+
             this.txtRecordingTitle.TextChanged += new System.EventHandler(this.txtRecordingTitle_TextChanged);
             this.txtRecordingTitle.GotFocus += new System.EventHandler(this.txtRecordingTitle_onFocus);
             this.txtRecordingTitle.LostFocus += new System.EventHandler(this.txtRecordingTitle_onLostFocus);
